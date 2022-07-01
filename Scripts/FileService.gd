@@ -21,5 +21,10 @@ func loadFile(fileName):
 	file.close()
 	return content
 	
+func createFolder(folderName):
+	var dir = Directory.new()
+	dir.open(userPath)
+	dir.make_dir(folderName)
+	
 func fileExists(fileName):
 	return (Directory.new().file_exists(userPath + fileName));

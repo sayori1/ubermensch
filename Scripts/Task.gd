@@ -36,3 +36,10 @@ func deepDuplicate():
 	duplicate.init(text, time, groupName);
 	duplicate.progress = progress;
 	return duplicate;
+
+func toJson():
+	return {'name': text, 'time': time, 'groupName': groupName, 'progress': progress};
+
+func fromJson(json):
+	init(json.name, json.time, json.groupName);
+	self.progress = json.progress;

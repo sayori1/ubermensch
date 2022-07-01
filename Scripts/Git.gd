@@ -43,4 +43,3 @@ func save():
 	
 	var output = []
 	await OS.execute('python', ['PythonScripts/Git.py', OS.get_user_data_dir(), username, password, url], output, true, true)
-	print(output)

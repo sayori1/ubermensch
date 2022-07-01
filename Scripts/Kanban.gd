@@ -4,9 +4,10 @@ func _ready():
 	addGroup('To do')
 	addGroup('In progress')
 	addGroup('Done')
-	addTask('task1', 'To do', 10)
+	
+	loadData();
 	while true:
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(1).timeout
 		tick1Minute()
 
 func addGroup(groupName:String):
@@ -67,8 +68,15 @@ func moveTask(taskName, from, to):
 	
 	deleteTask(taskName, from);
 	getGroup(to).add_child(task)
+	saveData()	
 	return task;
 	
+func getAllTasks():
+	var tasks = []
+	for group in getGroups():
+		for task in group.get_node('Content').get_children():
+			tasks.push_back(task)
+	return tasks
 #for moving tasks
 var current = null
 var selectedGroup = null 
@@ -77,13 +85,13 @@ func taskButtonDown(task):
 	current = task
 	
 func taskButtonUp(taskName:String, groupName:String):
-	moveTask(taskName, groupName, selectedGroup.name);
+	await moveTask(taskName, groupName, selectedGroup.name);
 	
 	selectedGroup.get_node('Active').visible = false
 	selectedGroup = null
 	current = null
 	offset = null
-	
+
 func _process(delta):
 	if(current!=null):
 		if(offset == null):
@@ -102,3 +110,30 @@ func tick1Minute():
 		task.progress += 1
 		if(task.completed):
 			moveTask(task.name, task.groupName, 'Done')
+
+func loadData():
+	var json = JSON.new();
+	
+	var content = Global.fileService.loadFile('.kanban')
+	if(content == ''): content = '{}'
+	var result = json.parse(content);
+	
+	if(result == OK):
+		var tasks = json.get_data()
+		var prefab = preload("res://Prefabs/Task.tscn")
+		for task in tasks:
+			if(!task.has('name') || !task.has('time') || !task.has('groupName')):
+				return
+			var duplicate = prefab.instantiate()
+			duplicate.fromJson(task)
+			$Panel/ScrollContainer/HBoxContainer.get_node(task.groupName + '/Content').add_child(duplicate)
+			duplicate.connect('button_down', taskButtonDown, [duplicate])
+			duplicate.connect('button_up', taskButtonUp, [duplicate.name, task.groupName])
+	else:
+		Global.notification.showPopup('Error while retrieving configs file')
+	
+func saveData():
+	await get_tree().create_timer(0.5).timeout
+	var json = JSON.new();
+	var tasks = getAllTasks().map(func(item): return item.toJson());
+	Global.fileService.saveFile('.kanban', json.stringify(tasks));
