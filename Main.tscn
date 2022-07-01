@@ -1,0 +1,192 @@
+[gd_scene load_steps=11 format=3 uid="uid://1fyoo61xfjdm"]
+
+[ext_resource type="Script" path="res://Scripts/Git.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/Editor.gd" id="1_7ggc4"]
+[ext_resource type="Script" path="res://Scripts/CommandPallete.gd" id="1_e68xx"]
+[ext_resource type="Script" path="res://Scripts/Notification.gd" id="2_gy8sh"]
+[ext_resource type="Script" path="res://Scripts/KeyboardService.gd" id="3_dcp0b"]
+[ext_resource type="Script" path="res://Scripts/FileService.gd" id="6_n0gbe"]
+[ext_resource type="Script" path="res://Scripts/Status.gd" id="7_d8mv1"]
+[ext_resource type="Script" path="res://Scripts/ConfigService.gd" id="8_pdr67"]
+[ext_resource type="Script" path="res://Scripts/Kanban.gd" id="9_nrmj7"]
+[ext_resource type="Script" path="res://Scripts/CreateNewTask.gd" id="10_x7glw"]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="KeyboardService" type="Node2D" parent="."]
+script = ExtResource( "3_dcp0b" )
+
+[node name="CommandPallete" type="TextEdit" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.0616667
+grow_horizontal = 2
+caret_blink = true
+script = ExtResource( "1_e68xx" )
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Placeholder" type="RichTextLabel" parent="CommandPallete"]
+self_modulate = Color(1, 1, 1, 0.490196)
+anchor_left = 0.00488281
+anchor_top = 0.162162
+anchor_right = 1.0
+anchor_bottom = 0.999999
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Editor" type="Panel" parent="."]
+visible = false
+anchor_top = 0.0633333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( "1_7ggc4" )
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextEdit" type="TextEdit" parent="Editor"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+language = "ru"
+wrap_mode = 1
+override_selected_font_color = true
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_control_chars = true
+draw_tabs = true
+draw_spaces = true
+scroll_smooth = true
+scroll_past_end_of_file = true
+minimap_draw = true
+caret_blink = true
+structured_text_bidi_override = 1
+metadata/_edit_layout_mode = 1
+
+[node name="Notification" type="Panel" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -209.0
+offset_top = 17.811
+offset_right = 209.0
+offset_bottom = 106.811
+grow_horizontal = 2
+script = ExtResource( "2_gy8sh" )
+metadata/_edit_layout_mode = 1
+
+[node name="Label" type="RichTextLabel" parent="Notification"]
+anchor_left = 0.0215311
+anchor_top = 0.0842697
+anchor_right = 0.978469
+anchor_bottom = 0.91573
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Status" type="Panel" parent="."]
+anchor_top = 0.963333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource( "7_d8mv1" )
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="StatusText" type="RichTextLabel" parent="Status"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_active = false
+
+[node name="ConfigService" type="Node" parent="."]
+script = ExtResource( "8_pdr67" )
+
+[node name="Git" type="Node" parent="."]
+script = ExtResource( "1" )
+
+[node name="FileService" type="Node" parent="."]
+script = ExtResource( "6_n0gbe" )
+
+[node name="Kanban" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( "9_nrmj7" )
+metadata/_edit_layout_mode = 1
+
+[node name="Panel" type="Panel" parent="Kanban"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Kanban/Panel"]
+anchor_top = 0.0583333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Kanban/Panel/ScrollContainer"]
+
+[node name="CreateNewTask" type="Panel" parent="Kanban"]
+visible = false
+anchor_left = 0.326172
+anchor_top = 0.27
+anchor_right = 0.673828
+anchor_bottom = 0.73
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( "10_x7glw" )
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Content" type="VBoxContainer" parent="Kanban/CreateNewTask"]
+anchor_left = 0.0224719
+anchor_top = 0.0289855
+anchor_right = 0.977528
+anchor_bottom = 0.978261
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Name" type="LineEdit" parent="Kanban/CreateNewTask/Content"]
+offset_right = 340.0
+offset_bottom = 31.0
+grow_horizontal = 2
+placeholder_text = "Name"
+metadata/_edit_layout_mode = 1
+
+[node name="Time" type="LineEdit" parent="Kanban/CreateNewTask/Content"]
+offset_top = 35.0
+offset_right = 340.0
+offset_bottom = 66.0
+placeholder_text = "Estimation (in minutes)"
+
+[node name="AutoRestore" type="CheckBox" parent="Kanban/CreateNewTask/Content"]
+offset_top = 70.0
+offset_right = 340.0
+offset_bottom = 101.0
+text = "Auto restore"
+
+[node name="Button" type="Button" parent="Kanban/CreateNewTask/Content"]
+offset_top = 231.0
+offset_right = 340.0
+offset_bottom = 262.0
+size_flags_vertical = 10
+text = "Create"
+
+[connection signal="text_changed" from="CommandPallete" to="CommandPallete" method="onTextChanded"]
